@@ -2,11 +2,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
     <title>Mystical CDN - myst-cdn.nyxon.xyz</title>
 </head>
 <body>
-<h2>Mystical CDN</h2>
+<h2>Mystical Assets</h2>
 <hr>
 <div id="list">
 </div>
@@ -15,11 +15,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
     $(document).ready(function() {
-        $.get("https://api.github.com/repos/MysticalCentral/myst-cdn.nyxon.xyz/contents/", function(data) {
+        $.get("https://api.github.com/repos/MysticalCentral/myst-cdn.nyxon.xyz/contents/branding/", function(data) {
             for(let dir of data) {
                 if(dir.name == "index.html") continue;
-                if(dir.name == "CNAME") continue;
-                if(dir.name == ".github") continue;
                 if(dir.name == "style.css") continue;
                 $("#list").prepend(`<p><a href="${dir.name}">${dir.name}</a></p>`);
             }
