@@ -2,24 +2,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="../style.css">
     <title>Mystical CDN - myst-cdn.nyxon.xyz</title>
 </head>
 <body>
 <h2>Mystical Assets</h2>
 <hr>
-<div id="list">
+<div id="list" class="file-manager">
 </div>
+<footer class="footer">
+    Design made by Nori Masomi (Mystical)
+</footer>
 </body>
 </html>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
+    function formatSize(bytes) {
+        if (bytes === 0) return '0 B';
+        const k = 1024;
+        const sizes = ['B', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+    }
+
     $(document).ready(function() {
         $.get("https://api.github.com/repos/MysticalCentral/myst-cdn.nyxon.xyz/contents/images/", function(data) {
-            for(let dir of data) {
-                if(dir.name == "index.html") continue;
-                if(dir.name == "style.css") continue;
-                $("#list").prepend(`<p><a href="${dir.name}">${dir.name}</a></p>`);
+            $("#list").append(`<a class="item" href="../index.html"><div class="left"><div class="icon">⬅️</div><span>Previous Directory</span></div><div class="size"></div></a>`);
+            for(let item of data) {
+                if(item.name == "index.html") continue;
+                if(item.name == "style.css") continue;
+                if(item.type === "file") {
+                    let href = item.name;
+                    let icon = "📄";
+                    let size = formatSize(item.size);
+                    $("#list").append(`<a class="item" href="${href}"><div class="left"><div class="icon">${icon}</div><span>${item.name}</span></div><div class="size">${size}</div></a>`);
+                } else {
+                    // For subfolders in images, assume no subfolders or handle similarly
+                    let href = `${item.name}/`;
+                    let icon = "📁";
+                    $("#list").append(`<a class="item" href="${href}"><div class="left"><div class="icon">${icon}</div><span>${item.name}</span></div><div class="size">N/A</div></a>`);
+                }
             }
         });
     });
