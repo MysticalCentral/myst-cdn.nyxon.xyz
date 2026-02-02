@@ -11,7 +11,7 @@ $(document).ready(function() {
     $.get(apiUrl, function(data) {
         let items = data.filter(item => {
             if (apiPath === "") {
-                return item.name !== "index.html" && item.name !== "CNAME" && item.name !== ".github" && item.name !== "style.css" && item.name !== "script.js";
+                return item.name !== "index.html" && item.name !== "CNAME" && item.name !== ".github" && item.name !== "style.css" && item.name !== "script.js" && item.name !== ".gitignore";
             } else {
                 return item.name !== "index.html" && item.name !== "style.css";
             }
